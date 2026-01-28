@@ -33,6 +33,7 @@
             - { env: "m5stack-tab5"               }
             - { env: "m5stack-paper-s3"           }
             - { env: "m5stack-paper"              }
+            - { env: "m5stack-sticks3"            }
             - { env: "headless-esp32s3-4mb"       }
             - { env: "headless-esp32s3-8mb"       }
             - { env: "headless-esp32s3-16mb"      }
