@@ -6,6 +6,49 @@
 #define TFT_BRIGHT_Bits 8
 #define TFT_BRIGHT_FREQ 5000
 
+constexpr uint32_t kDwDoublePressWindowMs = 250;
+constexpr uint32_t kDwLongPressMs = 600;
+constexpr uint32_t kDwDebounceMs = 8;
+
+static volatile uint32_t dw_last_isr_ms = 0;
+static volatile uint32_t dw_press_ms = 0;
+static volatile uint32_t dw_first_release_ms = 0;
+static volatile bool dw_is_down = false;
+static volatile bool dw_waiting = false;
+static volatile bool dw_double_ready = false;
+static volatile bool dw_long_seen = false;
+
+void IRAM_ATTR isr_dw_btn() {
+    uint32_t now = millis();
+    if (now - dw_last_isr_ms < kDwDebounceMs) return;
+    dw_last_isr_ms = now;
+    bool pressed = (digitalRead(DW_BTN) == BTN_ACT);
+    if (pressed) {
+        dw_is_down = true;
+        dw_press_ms = now;
+        return;
+    }
+
+    dw_is_down = false;
+    if (dw_long_seen) {
+        dw_long_seen = false;
+        dw_waiting = false;
+        return;
+    }
+
+    if ((now - dw_press_ms) < kDwLongPressMs) {
+        if (dw_waiting && (now - dw_first_release_ms) <= kDwDoublePressWindowMs) {
+            dw_double_ready = true;
+            dw_waiting = false;
+        } else {
+            dw_waiting = true;
+            dw_first_release_ms = now;
+        }
+    } else {
+        dw_waiting = false;
+    }
+}
+
 /***************************************************************************************
 ** Function name: _setup_gpio()
 ** Location: main.cpp
@@ -30,6 +73,7 @@ void _setup_gpio() {
 
     pinMode(SEL_BTN, INPUT_PULLUP);
     pinMode(DW_BTN, INPUT_PULLUP);
+    attachInterrupt(digitalPinToInterrupt(DW_BTN), isr_dw_btn, CHANGE);
     pinMode(TFT_BL, OUTPUT);
 }
 /***************************************************************************************
@@ -73,6 +117,15 @@ void _setBrightness(uint8_t brightval) {
 ** Description:   Delivers the battery value from 1-100
 ***************************************************************************************/
 int getBattery() {
+    static int lastState = -1;
+    bool charging = M5.Power.isCharging();
+    if (charging && lastState != 1) {
+        lastState = 1;
+        M5.Power.setExtOutput(false);
+    } else if (!charging && lastState != 0) {
+        lastState = 0;
+        M5.Power.setExtOutput(true);
+    }
     int level = M5.Power.getBatteryLevel();
     return (level < 0) ? 0 : (level >= 100) ? 100 : level;
 }
@@ -83,55 +136,47 @@ int getBattery() {
 **********************************************************************/
 void InputHandler(void) {
     static unsigned long tm = 0;
-    static bool selDown = false;
-    static unsigned long dwFirstPress = 0;
-    static bool dwWaiting = false;
-    static unsigned long dwPressStart = 0;
-    static bool dwDown = false;
     static bool dwLongFired = false;
-    constexpr unsigned long doublePressWindowMs = 300;
-    constexpr unsigned long longPressMs = 600;
     unsigned long now = millis();
     if (now - tm < 200 && !LongPress) return;
     if (!wakeUpScreen()) AnyKeyPress = true;
     else return;
 
     bool selPressed = (digitalRead(SEL_BTN) == BTN_ACT);
-    bool dwPressed = (digitalRead(DW_BTN) == BTN_ACT);
+    bool dwPressed = dw_is_down;
+    bool dwWaiting = dw_waiting;
+    bool dwDoubleReady = dw_double_ready;
+    unsigned long dwPressStart = dw_press_ms;
+    unsigned long dwFirstRelease = dw_first_release_ms;
 
-    AnyKeyPress = selPressed || dwPressed || dwWaiting;
+    AnyKeyPress = selPressed || dwPressed || dwWaiting || dwDoubleReady;
 
-    if (selPressed && !selDown) {
+    if (selPressed) {
         SelPress = true;
         tm = now;
     }
-    selDown = selPressed;
 
-    if (dwPressed && !dwDown) {
-        dwPressStart = now;
-        dwLongFired = false;
-    }
     if (dwPressed) {
-        if (!dwLongFired && (now - dwPressStart) > longPressMs) {
+        if (!dwLongFired && (now - dwPressStart) > kDwLongPressMs) {
             PrevPress = true;
             dwLongFired = true;
-            dwWaiting = false;
+            dw_waiting = false;
+            dw_double_ready = false;
+            dw_long_seen = true;
             tm = now;
         }
-    } else if (dwDown && !dwLongFired) {
-        if (dwWaiting && (now - dwFirstPress) <= doublePressWindowMs) {
-            PrevPress = true;
-            dwWaiting = false;
-            tm = now;
-        } else {
-            dwWaiting = true;
-            dwFirstPress = now;
-        }
+    } else if (dwLongFired) {
+        dwLongFired = false;
     }
-    dwDown = dwPressed;
-    if (dwWaiting && !dwPressed && (now - dwFirstPress) > doublePressWindowMs) {
+
+    if (dwDoubleReady) {
+        PrevPress = true;
+        dw_double_ready = false;
+        dw_waiting = false;
+        tm = now;
+    } else if (dwWaiting && !dwPressed && (now - dwFirstRelease) > kDwDoublePressWindowMs) {
         NextPress = true;
-        dwWaiting = false;
+        dw_waiting = false;
         tm = now;
     }
 }
