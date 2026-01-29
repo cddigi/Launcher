@@ -30,6 +30,7 @@
             - { env: "m5stack-core"               }
             - { env: "m5stack-core-4Mb"           }
             - { env: "m5stack-cores3"             }
+            - { env: "m5stack-dinmeter"            }
             - { env: "m5stack-tab5"               }
             - { env: "m5stack-paper-s3"           }
             - { env: "m5stack-paper"              }

@@ -62,4 +62,6 @@
 #include "arduino-nesso-n1.h"
 #elif ARDUINO_M5STACK_STICKS3
 #include "m5stack-sticks3.h"
+#elif ARDUINO_M5STACK_DINMETER
+#include "m5stack-dinmeter.h"
 #endif

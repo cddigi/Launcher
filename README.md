@@ -86,6 +86,7 @@ Things that needs to be done in next updates
 ## Latest Changelog
 * 2.6.6:
      * [x] [M5-StickS3](https://shop.m5stack.com/products/m5sticks3-esp32s3-mini-iot-dev-kit?ref=Pirata) port
+     * [x] [M5-DinMeter](https://shop.m5stack.com/products/m5stack-din-meter-w-m5stamps3?ref=Pirata) port
 
 * 2.6.5:
      * [x] M5-Tab5 using SDMMC driver for compatibility with other firmware
