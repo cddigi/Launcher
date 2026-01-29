@@ -164,7 +164,8 @@ void settings_menu() {
                            saveConfigs();
                        }});
 #endif
-#if defined(PART_08MB) && defined(M5STACK)
+#if defined(PART_08MB) && defined(M5STACK) &&                                                                \
+    (defined(ARDUINO_M5STACK_CARDPUTER) || defined(ARDUINO_M5STICK_C_PLUS2))
     options.push_back({"Partition Change", [=]() { partitioner(); }});
     options.push_back({"List of Partitions", [=]() { partList(); }});
 #endif
