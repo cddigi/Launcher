@@ -56,20 +56,30 @@ void IRAM_ATTR isr_dw_btn() {
 ***************************************************************************************/
 void _setup_gpio() {
     M5.begin();
-    M5.Power.setExtOutput(false); // Disable 5V output to external port
-    //  https://github.com/pr3y/Bruce/blob/main/media/connections/cc1101_stick_SDCard.jpg
-    //  Keeps this pin high to allow working with the following pinout
-    //  Keeps this pin high to allow working with the following pinout
-    pinMode(3, OUTPUT); // SD Card CS
-    digitalWrite(3, HIGH);
-    pinMode(5, OUTPUT); // CC1101 CS
-    digitalWrite(5, HIGH);
-    pinMode(6, OUTPUT); // nRF24L01 CS
-    digitalWrite(6, HIGH);
+    M5.Power.setExtOutput(false);
+    // Disable 5V output to external port
+    /*
+  | Device  | SCK   | MISO  | MOSI  | CS    | GDO0/CE   |
+  | ---     | :---: | :---: | :---: | :---: | :---:     |
+  | SD Card | 5     | 4     | 6     | 7     | ---       |
+  | CC1101  | 5     | 4     | 6     | 2     | 3         |
+  | NRF24   | 5     | 4     | 6     | 8     | 1         |
+  | PN532   | 5     | 4     | 6     | 43    | --        |
+  | WS500   | 5     | 4     | 6     | **    | **        |
+  | LoRa    | 5     | 4     | 6     | **    | **        |
+      */
+    pinMode(7, OUTPUT);
+    digitalWrite(7, HIGH); // SD Card CS
+    pinMode(2, OUTPUT);
+    digitalWrite(2, HIGH); // CC1101 CS
+    pinMode(8, OUTPUT);
+    digitalWrite(8, HIGH); // nRF24L01 CS
+    pinMode(43, OUTPUT);
+    digitalWrite(43, HIGH); // PN532 CS
     pinMode(9, OUTPUT);
-    digitalWrite(9, LOW); // RF jamming prevention
-    pinMode(10, OUTPUT);
-    digitalWrite(10, HIGH); // CS for modules
+    digitalWrite(9, LOW); // M5RF433 avoid Jamming
+    pinMode(46, OUTPUT);
+    digitalWrite(46, LOW); // Infrared LED Off
 
     pinMode(SEL_BTN, INPUT_PULLUP);
     pinMode(DW_BTN, INPUT_PULLUP);
