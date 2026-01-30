@@ -10,6 +10,12 @@
 #include <globals.h>
 #include <map>
 
+#include <FS.h>
+#include <SD.h>
+#if !defined(SDM_SD)
+#include <SD_MMC.h>
+#endif
+
 struct Config {
     String httpuser;
     String httppassword;   // password to access web admin

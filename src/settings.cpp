@@ -8,11 +8,15 @@
 #include "onlineLauncher.h"
 #include "partitioner.h"
 #include "sd_functions.h"
+#include <FS.h>
+#include <SD.h>
 #include <cstdio>
 #include <cstdlib>
 #include <globals.h>
 #include <memory>
-
+#if !defined(SDM_SD)
+#include <SD_MMC.h>
+#endif
 namespace {
 uint32_t crc32(const uint8_t *data, size_t length) {
     uint32_t crc = 0xFFFFFFFF;

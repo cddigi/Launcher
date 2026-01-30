@@ -1,9 +1,6 @@
 #ifndef __WEBINTERFACE_H
 #define __WEBINTERFACE_H
 
-#include <SD.h>
-#include <SD_MMC.h>
-
 #include <AsyncTCP.h>
 #include <ESPAsyncWebServer.h>
 #include <ESPmDNS.h>

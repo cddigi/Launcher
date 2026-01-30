@@ -1,9 +1,6 @@
 #ifndef __SETTINGS_H
 #define __SETTINGS_H
 
-#include <FS.h>
-#include <SD.h>
-#include <SD_MMC.h>
 #include <ArduinoJson.h>
 
 /*

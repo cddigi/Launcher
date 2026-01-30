@@ -1,13 +1,16 @@
 #ifndef __SD_FUNCTIONS_H
 #define __SD_FUNCTIONS_H
+#include <globals.h>
+
 #include <CustomUpdate.h>
+#include <SPI.h>
+
 #include <FFat.h>
 #include <FS.h>
 #include <SD.h>
+#if !defined(SDM_SD)
 #include <SD_MMC.h>
-#include <SPI.h>
-#include <globals.h>
-
+#endif
 extern SPIClass sdcardSPI;
 #ifndef PART_04MB
 bool eraseFAT();

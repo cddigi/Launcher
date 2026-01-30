@@ -7,15 +7,12 @@
     "mcu": "esp32c6",
     "variant": "pinouts",
     "extra_flags": [
-        "-DARDUINO_NESSO_N1",
-        "-DARDUINO_USB_CDC_ON_BOOT=1"
+        "-DARDUINO_NESSO_N1"
     ]
   },
   "connectivity": [
-    "wifi",
     "bluetooth",
-    "zigbee",
-    "thread"
+    "wifi"
   ],
   "debug": {
     "openocd_target": "esp32c6.cfg"
@@ -24,7 +21,7 @@
     "arduino",
     "espidf"
   ],
-  "name": "Arduino Nesso N1",
+  "name": "Arduino Nesso-N1",
   "upload": {
     "flash_size": "16MB",
     "maximum_ram_size": 327680,
@@ -32,6 +29,6 @@
     "require_upload_port": true,
     "speed": 460800
   },
-  "url": "https://docs.arduino.cc/hardware/nesso-n1/",
+  "url": "https://store.arduino.cc/products/nesso-n1",
   "vendor": "Arduino"
 }
