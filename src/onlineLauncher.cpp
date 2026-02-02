@@ -250,6 +250,9 @@ bool GetJsonFromLauncherHub(uint8_t page, String order, bool star, String query)
     q += page > 1 ? "&page=" + String(page) : "";
     q += query.length() > 0 ? "&q=" + String(query) : "";
     q += star ? "&star=1" : "";
+#ifdef OTA_EXTRA
+    q += OTA_EXTRA;
+#endif
     String serverUrl = "https://api.launcherhub.net/firmwares?category=" + String(OTA_TAG) + q;
 
     if (getInfo(serverUrl, doc)) {
