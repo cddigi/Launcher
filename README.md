@@ -85,6 +85,9 @@ Things that needs to be done in next updates
 
 ## Latest Changelog
 * 2.6.6:
+     * [x] Restablished Tab5 SdCard on SPI for WiFi compatibility and refactored reboot process to powercycle the SDCard, resetting the Sdcard communication bus.
+
+* 2.6.6:
      * [x] [M5-StickS3](https://shop.m5stack.com/products/m5sticks3-esp32s3-mini-iot-dev-kit?ref=Pirata) port
      * [ ] (Beta) [M5-DinMeter](https://shop.m5stack.com/products/m5stack-din-meter-w-m5stamps3?ref=Pirata) port
      * [x] [Arduino Nesso N1](https://docs.arduino.cc/hardware/nesso-n1) port

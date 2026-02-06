@@ -523,13 +523,7 @@ void updateFromSD(String path) {
         file.close();
         tft->fillScreen(BGCOLOR);
         FREE_TFT
-#if CONFIG_IDF_TARGET_ESP32P4
-        const esp_partition_t *partition =
-            esp_partition_find_first(ESP_PARTITION_TYPE_APP, ESP_PARTITION_SUBTYPE_APP_OTA_0, NULL);
-        esp_ota_set_boot_partition(partition);
-        ESP.deepSleep(100);
-#endif
-        ESP.restart();
+        reboot();
     } else {
         if (!file.seek(0x8000)) goto Exit;
         for (int i = 0; i < 0x0A0; i += 0x20) {
@@ -640,13 +634,7 @@ void updateFromSD(String path) {
         displayRedStripe("Complete");
         delay(1000);
         FREE_TFT
-#if CONFIG_IDF_TARGET_ESP32P4
-        const esp_partition_t *partition =
-            esp_partition_find_first(ESP_PARTITION_TYPE_APP, ESP_PARTITION_SUBTYPE_APP_OTA_0, NULL);
-        esp_ota_set_boot_partition(partition);
-        ESP.deepSleep(100);
-#endif
-        ESP.restart();
+        reboot();
     }
 Exit:
     displayRedStripe("Update Error.");

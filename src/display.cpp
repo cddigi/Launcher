@@ -1104,7 +1104,7 @@ void loopVersions(String _fid) {
         }
     }
 Sucesso:
-    if (!returnToMenu) esp_restart();
+    if (!returnToMenu) reboot();
 
 // quando sair, redesenhar a tela
 SAIR:

@@ -852,6 +852,9 @@ String keyboard(String current_text, int max_size, String textbox_title) {
 /* Turns off device */
 void powerOff() {}
 
+/* reboot device */
+void __attribute__((weak)) reboot() { ESP.restart(); }
+
 /* Verifies if the appropriate btn was pressed to turn off device */
 void checkReboot() {}
 /***************************************************************************************

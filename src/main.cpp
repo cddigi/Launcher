@@ -371,13 +371,7 @@ void setup() {
         {
             tft->fillScreen(BLACK);
             FREE_TFT
-#if CONFIG_IDF_TARGET_ESP32P4
-            const esp_partition_t *partition =
-                esp_partition_find_first(ESP_PARTITION_TYPE_APP, ESP_PARTITION_SUBTYPE_APP_OTA_0, NULL);
-            esp_ota_set_boot_partition(partition);
-            ESP.deepSleep(100);
-#endif
-            ESP.restart();
+            reboot();
         }
     }
 
@@ -386,13 +380,7 @@ void setup() {
     if (firstByte == 0xE9) {
         tft->fillScreen(BLACK);
         FREE_TFT
-#if CONFIG_IDF_TARGET_ESP32P4
-        const esp_partition_t *partition =
-            esp_partition_find_first(ESP_PARTITION_TYPE_APP, ESP_PARTITION_SUBTYPE_APP_OTA_0, NULL);
-        esp_ota_set_boot_partition(partition);
-        ESP.deepSleep(100);
-#endif
-        ESP.restart();
+        reboot();
     } else goto Launcher;
 
 // If M5 or Enter button is pressed, continue from here

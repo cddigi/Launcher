@@ -221,11 +221,7 @@ void partitioner() {
     while (!check(SelPress)) yield();
     while (check(SelPress)) yield();
     FREE_TFT
-#if CONFIG_IDF_TARGET_ESP32P4
-    esp_ota_set_boot_partition(part);
-    ESP.deepSleep(100);
-#endif
-    ESP.restart();
+    reboot();
 Exit:
     Serial.print("Desistiu");
 }
@@ -452,7 +448,7 @@ void partitionCrawler() {
         ESP_LOGE(TAG, "Failed to write 0x00 to the first byte of the running partition");
     } else {
         ESP_LOGI(TAG, "Restarting system to boot from test partition");
-        esp_restart();
+        reboot();
     }
 }
 

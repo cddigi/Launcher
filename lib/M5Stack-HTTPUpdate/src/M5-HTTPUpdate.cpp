@@ -346,14 +346,17 @@ HTTPUpdateResult HTTPUpdate::handleUpdate(
                         if (_cbEnd) { _cbEnd(); }
 
                         if (_rebootOnUpdate && !spiffs) {
-#if CONFIG_IDF_TARGET_ESP32P4
-                            const esp_partition_t *partition = esp_partition_find_first(
-                                ESP_PARTITION_TYPE_APP, ESP_PARTITION_SUBTYPE_APP_OTA_0, NULL
-                            );
-                            esp_ota_set_boot_partition(partition);
-                            ESP.deepSleep(100);
-#endif
-                            ESP.restart();
+                            log_d("Rebooting...\n");
+                            // #if CONFIG_IDF_TARGET_ESP32P4
+                            //                             const esp_partition_t *partition =
+                            //                             esp_partition_find_first(
+                            //                                 ESP_PARTITION_TYPE_APP,
+                            //                                 ESP_PARTITION_SUBTYPE_APP_OTA_0, NULL
+                            //                             );
+                            //                             esp_ota_set_boot_partition(partition);
+                            //                             ESP.deepSleep(100);
+                            // #endif
+                            //                             ESP.restart();
                         }
 
                     } else {

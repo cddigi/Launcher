@@ -4,7 +4,6 @@
 #include <Arduino.h>
 #include <vector>
 
-
 /***************************************************************************************
 ** Function name: _setup_gpio()
 ** Location: main.cpp
@@ -26,7 +25,6 @@ void _post_setup_gpio();
 ***************************************************************************************/
 int getBattery();
 
-
 /*********************************************************************
 ** Function: setBrightness
 ** location: settings.cpp
@@ -34,13 +32,11 @@ int getBattery();
 **********************************************************************/
 void _setBrightness(uint8_t brightval);
 
-
 /*********************************************************************
 ** Function: InputHandler
 ** Handles the variables PrevPress, NextPress, SelPress, AnyKeyPress and EscPress
 **********************************************************************/
 void InputHandler(void);
-
 
 /*********************************************************************
 ** Function: powerOff
@@ -49,6 +45,12 @@ void InputHandler(void);
 **********************************************************************/
 void powerOff();
 
+/*********************************************************************
+** Function: reboot
+** location: mykeyboard.cpp
+** Reboots the device
+**********************************************************************/
+void reboot();
 
 /*********************************************************************
 ** Function: checkReboot

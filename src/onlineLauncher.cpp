@@ -665,7 +665,7 @@ void installFirmware( // adicionar "fid"
 #endif
 
 Sucesso:
-    esp_restart();
+    reboot();
 
 // Só chega aqui se der errado
 SAIR:

@@ -652,13 +652,7 @@ void startWebUi(String ssid, int encryptation, bool mode_ap) {
     while (!check(SelPress)) {
         if (shouldReboot) {
             FREE_TFT
-#if CONFIG_IDF_TARGET_ESP32P4
-            const esp_partition_t *partition =
-                esp_partition_find_first(ESP_PARTITION_TYPE_APP, ESP_PARTITION_SUBTYPE_APP_OTA_0, NULL);
-            esp_ota_set_boot_partition(partition);
-            ESP.deepSleep(100);
-#endif
-            ESP.restart();
+            reboot();
         }
         // Perform installation from SD Card
         if (updateFromSd_var) {
@@ -719,7 +713,7 @@ void startWebUi(String ssid, int encryptation, bool mode_ap) {
     while (1) {
         if (shouldReboot) {
             FREE_TFT
-            ESP.restart();
+            reboot();
         }
         // Perform installation from SD Card
         if (updateFromSd_var) {
