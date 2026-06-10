@@ -1,5 +1,5 @@
-#ifndef __CARDKB2_H__
-#define __CARDKB2_H__
+#ifndef __CARDKB2_H
+#define __CARDKB2_H
 #ifdef USE_CARDKB2
 
 // M5Stack CardKB2 (U215) on the Grove port, default I2C mode.
@@ -17,4 +17,4 @@ bool cardkb2_setup();
 void cardkb2_poll();
 
 #endif // USE_CARDKB2
-#endif // __CARDKB2_H__
+#endif // __CARDKB2_H
